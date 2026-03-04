@@ -34,14 +34,16 @@
         <div class="order-card">
             <h2>Desserts</h2>
             
-            <div class="menu-grid-container">
+<div class="menu-grid-container">
                 <div class="menu-card">
                     <img src="images/float.png" alt="Floats" class="card-item-pic">
                     <h3 class="card-item-name">Floats</h3>
                     <p class="card-item-price">$5.89</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item1', -1)">-</button>
                         <input type="number" id="item1" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('Floats', 5.89, 'item1')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item1', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('Floats', 5.89, 'item1')">Add</button>
                     </div>
                 </div>
 
@@ -50,8 +52,10 @@
                     <h3 class="card-item-name">Cookies & Cream Milkshake</h3>
                     <p class="card-item-price">$5.95</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item2', -1)">-</button>
                         <input type="number" id="item2" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('Cookies & Cream Milkshake', 5.95, 'item2')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item2', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('Cookies & Cream Milkshake', 5.95, 'item2')">Add</button>
                     </div>
                 </div>
 
@@ -60,8 +64,10 @@
                     <h3 class="card-item-name">Chocolate Chunk Cookie</h3>
                     <p class="card-item-price">$6.29</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item3', -1)">-</button>
                         <input type="number" id="item3" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('Chocolate Chunk Cookie', 6.29, 'item3')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item3', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('Chocolate Chunk Cookie', 6.29, 'item3')">Add</button>
                     </div>
                 </div>
 
@@ -70,8 +76,10 @@
                     <h3 class="card-item-name">Chocolate Fudge Brownies</h3>
                     <p class="card-item-price">$5.49</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item4', -1)">-</button>
                         <input type="number" id="item4" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('Chocolate Fudge Brownies', 5.49, 'item4')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item4', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('Chocolate Fudge Brownies', 5.49, 'item4')">Add</button>
                     </div>
                 </div>
 
@@ -80,8 +88,10 @@
                     <h3 class="card-item-name">Chick-fil-A® Icedream® Cup</h3>
                     <p class="card-item-price">$6.89</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item5', -1)">-</button>
                         <input type="number" id="item5" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('Chick-fil-A® Icedream® Cup', 6.89, 'item5')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item5', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('Chick-fil-A® Icedream® Cup', 6.89, 'item5')">Add</button>
                     </div>
                 </div>
 
@@ -90,13 +100,16 @@
                     <h3 class="card-item-name">Chick-fil-A® Icedream®</h3>
                     <p class="card-item-price">$5.49</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item6', -1)">-</button>
                         <input type="number" id="item6" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('Chick-fil-A® Icedream®', 5.49, 'item6')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item6', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('Chick-fil-A® Icedream®', 5.49, 'item6')">Add</button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
 
     <div id="cartModal" class="modal-overlay">
         <div class="modal-content">

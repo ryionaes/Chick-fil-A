@@ -13,12 +13,16 @@ function updateCartCount() {
     
     if (cart.length === 0) {
         if(ageInput) ageInput.disabled = true;
-        // Itatago ang button kapag walang laman ang cart
+        
+        // Itatago pareho ang mga buttons
         if(clearBtn) clearBtn.style.display = 'none'; 
+        if(finishBtn) finishBtn.style.display = 'none'; 
     } else {
         if(ageInput) ageInput.disabled = false;
-        // Ipapalabas ulit ang button kapag may laman na ang cart
-        if(clearBtn) clearBtn.style.display = 'block'; 
+        
+        // Ipapalabas ulit at ibabalik sa default HTML inline style
+        if(clearBtn) clearBtn.style.display = ''; 
+        if(finishBtn) finishBtn.style.display = ''; 
     }
 }
 
@@ -190,12 +194,6 @@ function addToCart(name, price, id) {
 }
 
 function payNow() {
-    if (cart.length === 0) {
-        showToast("Your cart is empty!", "warning");
-        return;
-    }
-
-    // --- BAGO: Validation bago maka-checkout --- //
     let address = document.getElementById("address").value.trim();
     if (address === "") {
         showToast("Please enter your delivery address!", "warning");
@@ -240,6 +238,22 @@ function finishOrder() {
     if (finalTotalElem) finalTotalElem.innerText = finalTotal.toFixed(2);
 }
 
+// --- FUNCTION PARA SA + AT - BUTTONS --- //
+function changeQty(inputId, amount) {
+    let input = document.getElementById(inputId);
+    
+    if (!input) return; 
+
+    let currentValue = parseInt(input.value) || 0;
+    let newValue = currentValue + amount;
+    
+    if (newValue < 0) {
+        newValue = 0;
+    }
+    
+    input.value = newValue;
+}
+
 function openCartModal() {
     const modal = document.getElementById("cartModal");
     const cartList = document.getElementById("cartItemsList");
@@ -260,6 +274,7 @@ function openCartModal() {
         });
     }
     
+    // I-update muna ang computations bago ipakita ang modal
     finishOrder(); 
     modal.style.display = "flex";
 }

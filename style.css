@@ -1,9 +1,7 @@
 /* General Layout */
-
-    
 body {
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modernized font */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f4f4;
     color: #333;
 }
@@ -21,10 +19,9 @@ body {
 .nav-container {
     display: flex;
     align-items: center;
-    /* Binago mula space-between para maging sentro */
     justify-content: center; 
-    gap: 40px; /* Space sa pagitan ng logo at ng mga links */
-    max-width: 1000px; /* Pantay na sa main card mo */
+    gap: 40px; 
+    max-width: 1000px; 
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -49,7 +46,7 @@ nav a:hover {
     color: white;
     border: none;
     padding: 10px 25px;
-    border-radius: 50px; /* Fully rounded */
+    border-radius: 50px;
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.2s, background-color 0.2s;
@@ -63,18 +60,24 @@ nav a:hover {
 /* Centered Card Styling */
 main {
     display: flex;
-    justify-content: center;
-    padding: 60px 20px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
 }
 
 .order-card {
     background: white;
     width: 100%;
     max-width: 1000px;
-    padding: 40px;
-    border-radius: 15px; /* Softer corners */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* Deeper shadow */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     text-align: center;
+    margin-top: 30px; 
 }
 
 h2 {
@@ -88,35 +91,21 @@ h2 {
 .menu-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    align-items: center; 
+    margin-bottom: 15px;
+    text-align: left;
     padding-bottom: 10px;
-    border-bottom: 1px f4f4f4 solid;
+    border-bottom: 1px solid #f4f4f4;
 }
 
 .menu-row span {
     font-weight: 500;
 }
 
-input[type="number"] {
-    width: 70px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 1rem;
-}
-
-input[type="number"]:focus {
-    outline: none;
-    border-color: #dd0031;
-    box-shadow: 0 0 5px rgba(221, 0, 49, 0.2);
-}
-
 /* Senior Section */
 .senior-section {
     margin: 30px 0;
-    background: #fff5f6; /* Subtle highlight */
+    background: #fff5f6;
     padding: 15px;
     border-radius: 10px;
     display: flex;
@@ -150,7 +139,7 @@ input[type="number"]:focus {
 .results {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 2px dashed #eee; /* Visual separator */
+    border-top: 2px dashed #eee;
     text-align: left;
 }
 
@@ -167,68 +156,31 @@ input[type="number"]:focus {
     margin-top: 15px !important;
 }
 
-/* --- NEW STYLES FOR THE HERO IMAGE --- */
-
-/* 1. New container for the image */
+/* --- HERO IMAGE STYLES --- */
 .hero-container {
     width: 100%;
-    max-width: 1200px; /* Optional: matches navbar width for a boxed look */
-    margin: 0 auto; /* Centers the container if you use max-width */
-    overflow: hidden; /* Ensures image doesn't bleed out if scaled */
-    border-radius: 10px; /* Optional: adds rounded corners like in image_1.png */
+    max-width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 10px;
+    box-sizing: border-box;
 }
 
-/* 2. New style for the image itself */
 .hero-image {
     width: 100%;
-    height: auto; /* Maintains aspect ratio */
-    display: block; /* Prevents unwanted browser-default spacing */
+    height: auto;
+    display: block;
 }
 
-/* --- ADJUSTMENTS TO EXISTING STYLES --- */
-
-/* 1. Modify the main tag to allow the image and card to stack vertically */
-main {
-    display: flex;
-    flex-direction: column; /* Changed from default 'row' to stack items */
-    align-items: center; /* Centers the card horizontally */
-    padding: 20px; /* Adjusted padding for better spacing with the new hero */
-}
-
-/* 2. Modify the card to ensure it sits neatly below the image */
-.order-card {
-    background: white;
-    width: 100%;
-    max-width: 1000px; /* FIX: Pinalitan from 450px to 1000px */
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    text-align: center;
-    margin-top: 30px; 
-}
-
-/* Update this existing rule to ensure vertical alignment */
-.menu-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; 
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-/* --- New Grid and Card Layout --- */
-
-/* Grid container for the cards */
+/* --- MENU GRID LAYOUT --- */
 .menu-grid-container {
     display: grid;
-    /* Create three equal columns by default */
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px; /* Space between the cards */
+    gap: 30px;
     margin-bottom: 30px;
     padding: 10px;
 }
 
-/* Individual card styling */
 .menu-card {
     background-color: #f9f9f9;
     border: 1px solid #eee;
@@ -241,13 +193,11 @@ main {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Hover effect for interactivity */
 .menu-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* Styles for the larger item pictures */
 .card-item-pic {
     width: 100%;
     max-width: 200px; 
@@ -256,7 +206,6 @@ main {
     margin-bottom: 15px;
 }
 
-/* Styles for the text elements in the card */
 .card-item-name {
     font-size: 1.2rem;
     margin: 10px 0 5px 0;
@@ -270,30 +219,80 @@ main {
     margin-bottom: 15px;
 }
 
-/* Flexbox container for the quantity controls */
+/* =========================================
+   BAGO: CUSTOM QUANTITY CONTROLS (+ / -)
+   ========================================= */
+
 .quantity-control {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 8px; /* Tighter spacing para maganda tignan */
+    margin-bottom: 10px;
 }
 
-/* Keep inputs consistent but fit into the new layout */
-.quantity-control input[type="number"] {
-    width: 60px;
-    padding: 5px;
-    text-align: center;
+/* Tanggalin ang default arrows ng browser */
+.quantity-control input[type="number"]::-webkit-inner-spin-button,
+.quantity-control input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
+
+.quantity-control input[type="number"] {
+    -moz-appearance: textfield; /* Para sa Firefox */
+    width: 45px;
+    padding: 8px 5px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.quantity-control input[type="number"]:focus {
+    outline: none;
+    border-color: #dd0031;
+    box-shadow: 0 0 5px rgba(221, 0, 49, 0.2);
+}
+
+/* Design para sa custom - at + buttons */
+.qty-btn {
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    color: #dd0031;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s, transform 0.1s;
+    padding: 0;
+}
+
+.qty-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.qty-btn:active {
+    transform: scale(0.95);
+}
+
+/* ========================================= */
 
 /* --- CART MODAL STYLES --- */
 .modal-overlay {
-    display: none; /* Nakatago by default */
+    display: none;
     position: fixed;
     top: 0; 
     left: 0; 
     width: 100%; 
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Dark background effect */
-    z-index: 2000; /* Nasa pinaka-ibabaw */
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
     justify-content: center;
     align-items: center;
 }
@@ -305,7 +304,7 @@ main {
     width: 90%;
     max-width: 450px;
     max-height: 80vh;
-    overflow-y: auto; /* Magkaka-scroll bar kung madaming order */
+    overflow-y: auto;
     position: relative;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
@@ -349,7 +348,7 @@ main {
 /* --- TOAST NOTIFICATION STYLES --- */
 #toast-container {
     position: fixed;
-    bottom: -100px; /* Nakatago sa simula */
+    bottom: -100px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #333;
@@ -361,40 +360,23 @@ main {
     z-index: 3000;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy effect */
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     white-space: nowrap;
 }
 
 #toast-container.show {
     opacity: 1;
     visibility: visible;
-    bottom: 30px; /* Aangat pataas */
+    bottom: 30px;
 }
 
-
-/* Siguraduhin na ang main container ay laging saktong gitna */
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 1100px; /* Pantay sa nav-container mo */
-    margin: 0 auto;
-    padding: 40px 20px;
-    box-sizing: border-box;
-}
-
-/* Para pantay ang width ng hero image at ng white card */
-.hero-container, .order-card {
-    width: 100%;
-    max-width: 1000px; /* Ito ang limit ng lapad nila */
-    box-sizing: border-box;
-}
+.toast-success { border-left: 5px solid #4CAF50; }
+.toast-warning { border-left: 5px solid #ff9800; }
 
 /* Specific styling para sa text sa index page */
 .index-card h1 {
     color: #dd0031;
-    font-size: clamp(2rem, 5vw, 2.8rem); /* Responsive font size */
+    font-size: clamp(2rem, 5vw, 2.8rem);
     margin-bottom: 10px;
 }
 
@@ -425,23 +407,15 @@ main {
     border-radius: 50px !important;
 }
 
-
-/* Mga kulay depende sa aksyon */
-.toast-success { border-left: 5px solid #4CAF50; }
-.toast-warning { border-left: 5px solid #ff9800; }
-
 /* --- Responsive Adjustments --- */
-
-/* If the screen is smaller than 768px (like tablets) */
 @media (max-width: 768px) {
     .menu-grid-container {
-        grid-template-columns: repeat(2, 1fr); /* Two columns */
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* If the screen is smaller than 480px (like mobile phones) */
 @media (max-width: 480px) {
     .menu-grid-container {
-        grid-template-columns: 1fr; /* Single column grid */
+        grid-template-columns: 1fr;
     }
 }

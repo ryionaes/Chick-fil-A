@@ -40,8 +40,10 @@
                     <h3 class="card-item-name">CFA Sandwich</h3>
                     <p class="card-item-price">$5.89</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item1', -1)">-</button>
                         <input type="number" id="item1" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('CFA Sandwich', 5.89, 'item1')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item1', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('CFA Sandwich', 5.89, 'item1')">Add</button>
                     </div>
                 </div>
 
@@ -50,8 +52,10 @@
                     <h3 class="card-item-name">Chick-fil-A® Grilled Chicken Club Sandwich</h3>
                     <p class="card-item-price">$5.49</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item2', -1)">-</button>
                         <input type="number" id="item2" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('Chick-fil-A® Grilled Chicken Club Sandwich', 5.49, 'item2')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item2', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('Chick-fil-A® Grilled Chicken Club Sandwich', 5.49, 'item2')">Add</button>
                     </div>
                 </div>
 
@@ -60,8 +64,10 @@
                     <h3 class="card-item-name">8pc Nuggets</h3>
                     <p class="card-item-price">$5.95</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item3', -1)">-</button>
                         <input type="number" id="item3" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('8pc Nuggets', 5.95, 'item3')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item3', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('8pc Nuggets', 5.95, 'item3')">Add</button>
                     </div>
                 </div>
 
@@ -70,8 +76,10 @@
                     <h3 class="card-item-name">Spicy Sandwich</h3>
                     <p class="card-item-price">$6.29</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item4', -1)">-</button>
                         <input type="number" id="item4" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('Spicy Sandwich', 6.29, 'item4')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item4', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('Spicy Sandwich', 6.29, 'item4')">Add</button>
                     </div>
                 </div>
 
@@ -80,8 +88,10 @@
                     <h3 class="card-item-name">Chick-fil-A Cool Wrap</h3>
                     <p class="card-item-price">$6.89</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item5', -1)">-</button>
                         <input type="number" id="item5" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('Chick-fil-A Cool Wrap', 6.89, 'item5')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item5', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('Chick-fil-A Cool Wrap', 6.89, 'item5')">Add</button>
                     </div>
                 </div>
 
@@ -90,13 +100,16 @@
                     <h3 class="card-item-name">Chicken Strips</h3>
                     <p class="card-item-price">$5.49</p>
                     <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQty('item6', -1)">-</button>
                         <input type="number" id="item6" value="0" min="0">
-                        <button class="add-btn" onclick="addToCart('Chicken Strips', 5.49, 'item6')">Add</button>
+                        <button class="qty-btn" onclick="changeQty('item6', 1)">+</button>
+                        <button class="add-btn order-now-btn" style="padding: 8px 15px;" onclick="addToCart('Chicken Strips', 5.49, 'item6')">Add</button>
                     </div>
                 </div>
-            </div> 
-        </div> 
+            </div>
+        </div>
     </main>
+
 
     <div id="cartModal" class="modal-overlay">
         <div class="modal-content">
