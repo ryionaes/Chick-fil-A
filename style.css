@@ -342,6 +342,37 @@ main {
     font-size: 1.2rem;
 }
 
+/* --- TOAST NOTIFICATION STYLES --- */
+#toast-container {
+    position: fixed;
+    bottom: -100px; /* Nakatago sa simula */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy effect */
+    white-space: nowrap;
+}
+
+#toast-container.show {
+    opacity: 1;
+    visibility: visible;
+    bottom: 30px; /* Aangat pataas */
+}
+
+
+
+/* Mga kulay depende sa aksyon */
+.toast-success { border-left: 5px solid #4CAF50; }
+.toast-warning { border-left: 5px solid #ff9800; }
+
 /* --- Responsive Adjustments --- */
 
 /* If the screen is smaller than 768px (like tablets) */

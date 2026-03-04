@@ -1,100 +1,148 @@
-// Kunin ang dati nang laman ng cart o gumawa ng bagong listahan
 let cart = JSON.parse(localStorage.getItem('chickFilACart')) || [];
 
-// Function para i-update ang bilang sa Cart button sa navbar
 function updateCartCount() {
     let totalQty = 0;
-    cart.forEach(item => {
-        totalQty += item.qty;
-    });
+    cart.forEach(item => totalQty += item.qty);
     
-    // Hanapin yung button sa navbar
-    const cartBtn = document.querySelector('.order-now-btn');
-    if (cartBtn) {
-        cartBtn.innerText = `Cart (${totalQty})`;
-    }
-}
+    const cartBtn = document.querySelector('.navbar .order-now-btn');
+    if (cartBtn) cartBtn.innerText = `Cart (${totalQty})`;
 
-// Patakbuhin agad pagka-load ng page para updated ang button
-updateCartCount();
-
-// --- TEMPORARY STORAGE PARA SA CONFIRMATION MODAL --- //
-let pendingItem = null;
-
-// --- BAGONG ADD TO CART (Walang alert, may Modal na) --- //
-function addToCart(name, price, id) {
-    let qty = Number(document.getElementById(id).value);
-
-    if (qty > 0) {
-        // I-save muna pansamantala
-        pendingItem = { name: name, price: price, qty: qty, id: id };
-
-        // Palitan ang text sa loob ng modal
-        document.getElementById("confirmMessage").innerHTML = `Add <b>${qty}x ${name}</b> to your cart?`;
-
-        // I-pop up ang confirmation modal
-        document.getElementById("confirmModal").style.display = "flex";
+    // I-target ang mga buttons at input
+    const finishBtn = document.getElementById("finishOrderBtn");
+    const clearBtn = document.getElementById("clearCartBtn");
+    const ageInput = document.getElementById("age"); 
+    
+    if (cart.length === 0) {
+        // I-disable at hayaan ang CSS na mag-apply ng gray style
+        if(finishBtn) finishBtn.disabled = true;
+        if(clearBtn) clearBtn.disabled = true;
+        if(ageInput) ageInput.disabled = true;
     } else {
-        alert("Lagay ka muna ng quantity!"); 
+        // I-enable kapag may laman na
+        if(finishBtn) finishBtn.disabled = false;
+        if(clearBtn) clearBtn.disabled = false;
+        if(ageInput) ageInput.disabled = false;
     }
 }
 
-// Isara yung confirm modal (kapag "No")
+// --- BAGO: TOAST NOTIFICATION SYSTEM --- //
+function showToast(message, type = 'success') {
+    let toast = document.getElementById("toast-container");
+    // Kung walang toast element, gagawa ang JS nang kusa (para di ka na mag-edit ng HTML)
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "toast-container";
+        document.body.appendChild(toast);
+    }
+    toast.className = `show toast-${type}`;
+    toast.innerHTML = message;
+    
+    // Mawawala mag-isa after 3 seconds
+    setTimeout(() => {
+        toast.className = toast.className.replace("show", "");
+    }, 3000);
+}
+
+// --- BAGO: DYNAMIC CONFIRMATION MODAL --- //
+let pendingAction = null; // Mag-iimbak kung anong klaseng aksyon ang gagawin
+
+function openConfirmModal(title, message, confirmBtnText, actionType, data = null) {
+    document.querySelector("#confirmModal h3").innerText = title;
+    document.getElementById("confirmMessage").innerHTML = message;
+    
+    // Palitan ang text ng confirm button (Yes Add / Yes Pay / Yes Clear)
+    document.querySelector("#confirmModal .order-now-btn").innerText = confirmBtnText;
+    
+    pendingAction = { type: actionType, data: data };
+    document.getElementById("confirmModal").style.display = "flex";
+}
+
 function closeConfirmModal() {
     document.getElementById("confirmModal").style.display = "none";
-    pendingItem = null;
+    pendingAction = null;
 }
 
-// Kapag pinindot ang "Yes" sa Confirm Modal
 function confirmAction() {
-    if (pendingItem) {
-        let name = pendingItem.name;
-        let price = pendingItem.price;
-        let qty = pendingItem.qty;
-        let id = pendingItem.id;
+    if (!pendingAction) return;
 
+    // KUNG ANG AKSYON AY ADD TO CART
+    if (pendingAction.type === 'add') {
+        let { name, price, qty, id } = pendingAction.data;
         let existingItemIndex = cart.findIndex(item => item.name === name);
 
         if (existingItemIndex > -1) {
             cart[existingItemIndex].qty += qty;
             cart[existingItemIndex].total = cart[existingItemIndex].qty * price;
         } else {
-            cart.push({
-                name: name,
-                price: price,
-                qty: qty,
-                total: price * qty
-            });
+            cart.push({ name, price, qty, total: price * qty });
         }
-
-        // I-save sa localStorage at i-update UI
         localStorage.setItem('chickFilACart', JSON.stringify(cart));
         updateCartCount();
-
-        // I-reset yung input box
         document.getElementById(id).value = 0;
+        
+        showToast(`<b>${qty}x ${name}</b> added to cart!`, "success");
 
-        // Isara ang modal
-        closeConfirmModal();
+    // KUNG ANG AKSYON AY CLEAR CART
+    } else if (pendingAction.type === 'clear') {
+        localStorage.removeItem('chickFilACart');
+        cart = []; 
+        updateCartCount(); 
+        
+        let ageInput = document.getElementById("age");
+        if (ageInput) ageInput.value = "";
+        
+        openCartModal(); // I-refresh ang cart display
+        showToast("Cart has been emptied.", "warning");
+
+    // KUNG ANG AKSYON AY PAY/CHECKOUT
+    } else if (pendingAction.type === 'pay') {
+        let finalAmount = document.getElementById("finalTotal").innerText;
+        localStorage.removeItem('chickFilACart');
+        cart = [];
+        updateCartCount();
+        closeCartModal(); // Isara ang cart
+        
+        showToast(`Payment of <b>$${finalAmount}</b> successful!`, "success");
+    }
+
+    closeConfirmModal();
+}
+
+// --- IN-UPDATE NA TRIGGER FUNCTIONS --- //
+function addToCart(name, price, id) {
+    let qty = Number(document.getElementById(id).value);
+    if (qty > 0) {
+        // Tatawagin yung dynamic modal
+        openConfirmModal("Confirm Order", `Add <b>${qty}x ${name}</b> to your cart?`, "Yes, Add", "add", { name, price, qty, id });
+    } else {
+        showToast("Lagay ka muna ng quantity!", "warning"); 
     }
 }
 
+function payNow() {
+    if (cart.length === 0) {
+        showToast("Your cart is empty!", "warning");
+        return;
+    }
+    let finalAmount = document.getElementById("finalTotal").innerText;
+    openConfirmModal("Confirm Payment", `Proceed to pay the amount of <b>$${finalAmount}</b>?`, "Yes, Pay", "pay");
+}
+
+function clearCart() {
+    if (cart.length === 0) return; // Wag na mag pop-up kung empty na
+    openConfirmModal("Clear Cart", "Are you sure you want to remove all items?", "Yes, Clear", "clear");
+}
+
+// --- CART MODAL UI FUNCTIONS --- //
 function finishOrder() {
     let subtotal = 0;
-    
-    // Kunin lahat ng in-add sa cart
-    cart.forEach(item => {
-        subtotal += item.total;
-    });
+    cart.forEach(item => subtotal += item.total);
 
     let ageInput = document.getElementById("age");
-    // I-check kung nag-eexist yung input bago kunin ang value (para iwas error)
     let age = ageInput ? Number(ageInput.value) : 0; 
-    
     let discount = (age >= 60) ? subtotal * 0.12 : 0;
     let finalTotal = subtotal - discount;
 
-    // I-display ang resulta sa loob ng Cart Modal
     let origTotalElem = document.getElementById("origTotal");
     let discountElem = document.getElementById("discount");
     let finalTotalElem = document.getElementById("finalTotal");
@@ -104,43 +152,6 @@ function finishOrder() {
     if (finalTotalElem) finalTotalElem.innerText = finalTotal.toFixed(2);
 }
 
-// Para malinis ang cart
-function clearCart() {
-    localStorage.removeItem('chickFilACart');
-    cart = []; 
-    updateCartCount(); 
-    
-    let origTotalElem = document.getElementById("origTotal");
-    let discountElem = document.getElementById("discount");
-    let finalTotalElem = document.getElementById("finalTotal");
-    let ageInput = document.getElementById("age");
-
-    if (origTotalElem) origTotalElem.innerText = "0.00";
-    if (discountElem) discountElem.innerText = "0.00";
-    if (finalTotalElem) finalTotalElem.innerText = "0.00";
-    if (ageInput) ageInput.value = "";
-    
-    // I-refresh yung laman ng cart modal kung nakabukas ito
-    openCartModal();
-}
-
-// --- BAGONG PAY NOW FUNCTION --- //
-function payNow() {
-    if (cart.length === 0) {
-        alert("Your cart is empty! Mag-add ka muna ng pagkain.");
-        return;
-    }
-    
-    let finalAmount = document.getElementById("finalTotal").innerText;
-    alert(`Payment successful! You paid $${finalAmount}. Thank you!`);
-    
-    localStorage.removeItem('chickFilACart');
-    cart = [];
-    updateCartCount();
-    closeCartModal();
-}
-
-// --- CART MODAL FUNCTIONS --- //
 function openCartModal() {
     const modal = document.getElementById("cartModal");
     const cartList = document.getElementById("cartItemsList");
@@ -148,20 +159,19 @@ function openCartModal() {
     cartList.innerHTML = "";
     
     if (cart.length === 0) {
-        cartList.innerHTML = "<p style='text-align:center; color:gray; font-style:italic;'>Your cart is currently empty.</p>";
+        cartList.innerHTML = "<p style='text-align:center; color:gray; font-style:italic; margin: 30px 0;'>Your cart is currently empty.</p>";
     } else {
         cart.forEach((item, index) => {
             cartList.innerHTML += `
                 <div class="cart-item-row" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
                     <span><b>${item.qty}x</b> ${item.name}</span>
                     <span>$${item.total.toFixed(2)}</span>
-                    <button class="remove-item-btn" style="color: red; border: none; background: none; cursor: pointer; font-weight: bold;" onclick="removeItem(${index})" title="Remove Item">&times;</button>
+                    <button class="remove-item-btn" style="color: red; border: none; background: none; cursor: pointer; font-weight: bold; font-size: 1.2rem;" onclick="removeItem(${index})" title="Remove Item">&times;</button>
                 </div>
             `;
         });
     }
     
-    // Auto-compute pagka-open ng cart
     finishOrder(); 
     modal.style.display = "flex";
 }
@@ -175,4 +185,5 @@ function removeItem(index) {
     localStorage.setItem('chickFilACart', JSON.stringify(cart));
     updateCartCount(); 
     openCartModal(); 
+    showToast("Item removed from cart", "warning");
 }

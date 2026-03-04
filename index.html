@@ -3,9 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Chick-fil-A | Home</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="index.html">
+                <img src="images/Chick-fil-A-Logo.png" alt="Chick-fil-A Logo" class="nav-logo">
+            </a>
+            <nav>
+                <a href="Entrées.html">Entrées</a>
+                <a href="beverages.html">Beverages</a>
+                <a href="dessert.html">Dessert</a>
+            </nav>
+            <div class="nav-right">
+                <button class="order-now-btn" onclick="window.location.href='Entrées.html'">Start Ordering</button>
+            </div>
+        </div>
+    </header>
+
+    <main style="padding: 40px 20px;">
+        
+        <div class="hero-container" style="margin-bottom: 30px;">
+            <img src="images/drinks-header.PNG" alt="Welcome to Chick-fil-A" class="hero-image" style="border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+        </div>
+
+        <div class="order-card" style="max-width: 800px; padding: 50px; margin: 0 auto;">
+            <h1 style="color: #dd0031; font-size: 2.8em; margin-top: 0; margin-bottom: 10px;">Welcome to Chick-fil-A!</h1>
+            <h3 style="color: #333; margin-top: 0; margin-bottom: 30px;">It's our pleasure to serve you.</h3>
+            
+            <p style="font-size: 1.2em; color: #555; margin-bottom: 40px; line-height: 1.6;">
+                Craving something delicious? Explore our menu of classic chicken sandwiches, crispy nuggets, refreshing drinks, and sweet treats. Made fresh daily just for you.
+            </p>
+            
+            <div style="display: flex; justify-content: center;">
+                <button class="place-order-btn" style="width: auto; padding: 15px 50px; font-size: 1.3em; border-radius: 50px;" onclick="window.location.href='Entrées.html'">View Menu & Order</button>
+            </div>
+        </div>
+
+    </main>
+
 </body>
 </html>

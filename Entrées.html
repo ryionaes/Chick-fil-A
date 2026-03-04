@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chick-fil-A | Entrées</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="index.html">
+                <img src="images/Chick-fil-A-Logo.png" alt="Chick-fil-A Logo" class="nav-logo">
+            </a>
+            <nav>
+                <a href="Entrées.html">Entrées</a>
+                <a href="beverages.html">Beverages</a>
+                <a href="dessert.html">Dessert</a>
+            </nav>
+            <div class="nav-right">
+                <button class="order-now-btn" onclick="openCartModal()">Cart (0)</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero-container">
+            <img src="images/drinks-header.PNG" alt="Chick-fil-A Meal" class="hero-image">
+        </div>
+
+        <div class="order-card">
+            <h2>Entrées</h2>
+            
+            <div class="menu-grid-container">
+                <div class="menu-card">
+                    <img src="images/Chicken-S.png" alt="CFA Chicken Sandwich" class="card-item-pic">
+                    <h3 class="card-item-name">CFA Sandwich</h3>
+                    <p class="card-item-price">$5.89</p>
+                    <div class="quantity-control">
+                        <input type="number" id="item1" value="0" min="0">
+                        <button class="add-btn" onclick="addToCart('CFA Sandwich', 5.89, 'item1')">Add</button>
+                    </div>
+                </div>
+
+                 <div class="menu-card">
+                    <img src="images/grilledClub_colbyJack_PDP.webp" alt="Chick-fil-A® Grilled Chicken Club Sandwich" class="card-item-pic">
+                    <h3 class="card-item-name">Chick-fil-A® Grilled Chicken Club Sandwich</h3>
+                    <p class="card-item-price">$5.49</p>
+                    <div class="quantity-control">
+                        <input type="number" id="item6" value="0" min="0">
+                        <button class="add-btn" onclick="addToCart('Chick-fil-A® Grilled Chicken Club Sandwich', 5.49, 'item6')">Add</button>
+                    </div>
+                </div>
+
+
+                <div class="menu-card">
+                    <img src="images/Chicken-N.PNG" alt="8pc Chicken Nuggets" class="card-item-pic">
+                    <h3 class="card-item-name">8pc Nuggets</h3>
+                    <p class="card-item-price">$5.95</p>
+                    <div class="quantity-control">
+                        <input type="number" id="item2" value="0" min="0">
+                        <button class="add-btn" onclick="addToCart('8pc Nuggets', 5.95, 'item2')">Add</button>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <img src="images/grilledNuggets.png" alt="Spicy Sandwich" class="card-item-pic">
+                    <h3 class="card-item-name">Spicy Sandwich</h3>
+                    <p class="card-item-price">$6.29</p>
+                    <div class="quantity-control">
+                        <input type="number" id="item3" value="0" min="0">
+                        <button class="add-btn" onclick="addToCart('Spicy Sandwich', 6.29, 'item3')">Add</button>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <img src="images/wrap.png" alt="Chick-fil-A Cool Wrap" class="card-item-pic">
+                    <h3 class="card-item-name">Chick-fil-A Cool Wrap</h3>
+                    <p class="card-item-price">$6.89</p>
+                    <div class="quantity-control">
+                        <input type="number" id="item4" value="0" min="0">
+                        <button class="add-btn" onclick="addToCart('Chick-fil-A Cool Wrap', 6.89, 'item4')">Add</button>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <img src="images/chick-n-strips-plp-hero_e147b2.jpg" alt="Chicken Strips" class="card-item-pic">
+                    <h3 class="card-item-name">Chicken Strips</h3>
+                    <p class="card-item-price">$5.49</p>
+                    <div class="quantity-control">
+                        <input type="number" id="item5" value="0" min="0">
+                        <button class="add-btn" onclick="addToCart('Chicken Strips', 5.49, 'item5')">Add</button>
+                    </div>
+                </div>
+            </div> </div> </main>
+
+    <div id="cartModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCartModal()">&times;</span>
+            <h2>Your Cart & Checkout</h2>
+            <div id="cartItemsList"></div>
+            <hr style="border: 1px solid #eee; margin: 20px 0;">
+            <div class="senior-section" style="margin: 10px 0; padding: 10px;">
+                <label for="age">Enter Age (for 12% Senior Discount):</label>
+                <input type="number" id="age" placeholder="Age" oninput="finishOrder()" style="width: 80px; margin-left: 10px;">
+            </div>
+            <div class="results" style="margin-top: 10px; border-top: none; padding-top: 0;">
+                <p>Original Total: $<span id="origTotal">0.00</span></p>
+                <p>Discount: $<span id="discount">0.00</span></p>
+                <p class="final-payable">Final Payable: $<span id="finalTotal">0.00</span></p>
+            </div>
+            <div class="modal-footer" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
+                <button class="place-order-btn" style="flex: 1; min-width: 140px; padding: 12px;" onclick="payNow()">Finish Order</button>
+                <button class="order-now-btn" style="flex: 1; min-width: 140px; padding: 12px; background-color: #eee; color: #333;" onclick="closeCartModal()">Continue Shopping</button>
+                <button class="order-now-btn" style="width: 100%; padding: 10px; background-color: #fff5f6; color: #dd0031; border: 1px solid #ffcccc;" onclick="clearCart()">Clear Cart Items</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 350px; text-align: center;">
+            <h3 style="color: #dd0031; margin-top: 0;">Confirm Order</h3>
+            <p id="confirmMessage" style="font-size: 1.1rem; margin: 20px 0;">Are you sure?</p>
+            <div style="display: flex; justify-content: center; gap: 15px;">
+                <button class="order-now-btn" onclick="confirmAction()">Yes, Add</button>
+                <button class="place-order-btn" style="background-color: #ccc; color: #333; width: auto; padding: 10px 25px; border-radius: 50px;" onclick="closeConfirmModal()">No, Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
