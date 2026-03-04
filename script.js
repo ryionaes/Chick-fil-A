@@ -7,28 +7,25 @@ function updateCartCount() {
     const cartBtn = document.querySelector('.navbar .order-now-btn');
     if (cartBtn) cartBtn.innerText = `Cart (${totalQty})`;
 
-    // I-target ang mga buttons at input
     const finishBtn = document.getElementById("finishOrderBtn");
     const clearBtn = document.getElementById("clearCartBtn");
     const ageInput = document.getElementById("age"); 
     
     if (cart.length === 0) {
-        // I-disable at hayaan ang CSS na mag-apply ng gray style
         if(finishBtn) finishBtn.disabled = true;
         if(clearBtn) clearBtn.disabled = true;
         if(ageInput) ageInput.disabled = true;
     } else {
-        // I-enable kapag may laman na
         if(finishBtn) finishBtn.disabled = false;
         if(clearBtn) clearBtn.disabled = false;
         if(ageInput) ageInput.disabled = false;
     }
 }
 
-// --- BAGO: TOAST NOTIFICATION SYSTEM --- //
+updateCartCount();
+
 function showToast(message, type = 'success') {
     let toast = document.getElementById("toast-container");
-    // Kung walang toast element, gagawa ang JS nang kusa (para di ka na mag-edit ng HTML)
     if (!toast) {
         toast = document.createElement("div");
         toast.id = "toast-container";
@@ -37,20 +34,40 @@ function showToast(message, type = 'success') {
     toast.className = `show toast-${type}`;
     toast.innerHTML = message;
     
-    // Mawawala mag-isa after 3 seconds
     setTimeout(() => {
         toast.className = toast.className.replace("show", "");
     }, 3000);
 }
 
-// --- BAGO: DYNAMIC CONFIRMATION MODAL --- //
-let pendingAction = null; // Mag-iimbak kung anong klaseng aksyon ang gagawin
+// --- BAGO: Para lumabas yung input ng Card/E-Wallet --- //
+function togglePaymentDetails() {
+    const method = document.getElementById("paymentMethod")?.value;
+    const detailsDiv = document.getElementById("paymentDetails");
+    const label = document.getElementById("paymentLabel");
+    const input = document.getElementById("paymentNumber");
+
+    if (!detailsDiv) return;
+
+    if (method === "Card") {
+        detailsDiv.style.display = "block";
+        label.innerText = "Card Number:";
+        input.placeholder = "Enter 16-digit card number...";
+    } else if (method === "GCash/PayMaya") {
+        detailsDiv.style.display = "block";
+        label.innerText = "E-Wallet Number:";
+        input.placeholder = "Enter mobile number...";
+    } else {
+        detailsDiv.style.display = "none";
+        input.value = ""; // clear kung bumalik sa cash
+    }
+}
+
+// --- MODALS --- //
+let pendingAction = null;
 
 function openConfirmModal(title, message, confirmBtnText, actionType, data = null) {
     document.querySelector("#confirmModal h3").innerText = title;
     document.getElementById("confirmMessage").innerHTML = message;
-    
-    // Palitan ang text ng confirm button (Yes Add / Yes Pay / Yes Clear)
     document.querySelector("#confirmModal .order-now-btn").innerText = confirmBtnText;
     
     pendingAction = { type: actionType, data: data };
@@ -62,10 +79,14 @@ function closeConfirmModal() {
     pendingAction = null;
 }
 
+// --- BAGO: Para isara yung Receipt --- //
+function closeReceiptModal() {
+    document.getElementById("receiptModal").style.display = "none";
+}
+
 function confirmAction() {
     if (!pendingAction) return;
 
-    // KUNG ANG AKSYON AY ADD TO CART
     if (pendingAction.type === 'add') {
         let { name, price, qty, id } = pendingAction.data;
         let existingItemIndex = cart.findIndex(item => item.name === name);
@@ -82,7 +103,6 @@ function confirmAction() {
         
         showToast(`<b>${qty}x ${name}</b> added to cart!`, "success");
 
-    // KUNG ANG AKSYON AY CLEAR CART
     } else if (pendingAction.type === 'clear') {
         localStorage.removeItem('chickFilACart');
         cart = []; 
@@ -91,28 +111,78 @@ function confirmAction() {
         let ageInput = document.getElementById("age");
         if (ageInput) ageInput.value = "";
         
-        openCartModal(); // I-refresh ang cart display
+        openCartModal(); 
         showToast("Cart has been emptied.", "warning");
 
-    // KUNG ANG AKSYON AY PAY/CHECKOUT
     } else if (pendingAction.type === 'pay') {
+        // Kukunin natin lahat ng data na kailangan sa resibo
         let finalAmount = document.getElementById("finalTotal").innerText;
+        let subtotal = document.getElementById("origTotal").innerText;
+        let discount = document.getElementById("discount").innerText;
+        
+        let address = document.getElementById("address").value;
+        let notes = document.getElementById("specialNotes")?.value || "None";
+        let paymentMethod = document.getElementById("paymentMethod").value;
+        let paymentNumber = document.getElementById("paymentNumber")?.value || "N/A";
+        
+        let orderNumber = Math.floor(Math.random() * 90000) + 10000; 
+        
+        // --- BUUIN ANG RESIBO (HTML STRING) ---
+        let receiptHTML = `
+            <p style="margin: 5px 0;"><b>Order #:</b> ${orderNumber}</p>
+            <p style="margin: 5px 0;"><b>Date:</b> ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}</p>
+            <p style="margin: 5px 0;"><b>Address:</b> ${address}</p>
+            <hr style="border: 1px dashed #ccc; margin: 15px 0;">
+            <div style="margin-bottom: 10px;"><b>ITEMS:</b></div>
+        `;
+
+        cart.forEach(item => {
+            receiptHTML += `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span>${item.qty}x ${item.name}</span>
+                    <span>$${item.total.toFixed(2)}</span>
+                </div>
+            `;
+        });
+
+        receiptHTML += `
+            <hr style="border: 1px dashed #ccc; margin: 15px 0;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;"><span>Subtotal:</span><span>$${subtotal}</span></div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px; color: #dd0031;"><span>Discount:</span><span>-$${discount}</span></div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold; font-size: 1.1rem;"><span>TOTAL:</span><span>$${finalAmount}</span></div>
+            
+            <p style="margin: 5px 0; font-size: 0.85rem;"><b>Method:</b> ${paymentMethod}</p>
+            ${paymentMethod !== 'Cash' ? `<p style="margin: 5px 0; font-size: 0.85rem;"><b>Acc/Card No:</b> ****${paymentNumber.slice(-4)}</p>` : ''}
+            <p style="margin: 5px 0; font-size: 0.85rem;"><b>Notes:</b> ${notes}</p>
+        `;
+
+        // Ilagay ang resibo sa modal at ipakita
+        document.getElementById("receiptContent").innerHTML = receiptHTML;
+        
+        // I-clear ang system
         localStorage.removeItem('chickFilACart');
         cart = [];
         updateCartCount();
-        closeCartModal(); // Isara ang cart
+        closeCartModal(); 
         
-        showToast(`Payment of <b>$${finalAmount}</b> successful!`, "success");
+        // I-reset ang mga fields
+        document.getElementById("address").value = "";
+        if(document.getElementById("specialNotes")) document.getElementById("specialNotes").value = "";
+        if(document.getElementById("paymentNumber")) document.getElementById("paymentNumber").value = "";
+        document.getElementById("paymentMethod").value = "Cash";
+        togglePaymentDetails(); // I-hide ulit yung input para sa card
+
+        // Ipakita yung resibo pop-up
+        document.getElementById("receiptModal").style.display = "flex";
     }
 
     closeConfirmModal();
 }
 
-// --- IN-UPDATE NA TRIGGER FUNCTIONS --- //
+// --- TRIGGER FUNCTIONS --- //
 function addToCart(name, price, id) {
     let qty = Number(document.getElementById(id).value);
     if (qty > 0) {
-        // Tatawagin yung dynamic modal
         openConfirmModal("Confirm Order", `Add <b>${qty}x ${name}</b> to your cart?`, "Yes, Add", "add", { name, price, qty, id });
     } else {
         showToast("Lagay ka muna ng quantity!", "warning"); 
@@ -124,12 +194,30 @@ function payNow() {
         showToast("Your cart is empty!", "warning");
         return;
     }
+
+    // --- BAGO: Validation bago maka-checkout --- //
+    let address = document.getElementById("address").value.trim();
+    if (address === "") {
+        showToast("Please enter your delivery address!", "warning");
+        document.getElementById("address").focus();
+        return;
+    }
+
+    let method = document.getElementById("paymentMethod").value;
+    let paymentNum = document.getElementById("paymentNumber").value.trim();
+    
+    if (method !== "Cash" && paymentNum === "") {
+        showToast("Please enter your account/card number!", "warning");
+        document.getElementById("paymentNumber").focus();
+        return;
+    }
+
     let finalAmount = document.getElementById("finalTotal").innerText;
-    openConfirmModal("Confirm Payment", `Proceed to pay the amount of <b>$${finalAmount}</b>?`, "Yes, Pay", "pay");
+    openConfirmModal("Confirm Payment", `Proceed to pay <b>$${finalAmount}</b> via <b>${method}</b>?`, "Yes, Pay", "pay");
 }
 
 function clearCart() {
-    if (cart.length === 0) return; // Wag na mag pop-up kung empty na
+    if (cart.length === 0) return; 
     openConfirmModal("Clear Cart", "Are you sure you want to remove all items?", "Yes, Clear", "clear");
 }
 
