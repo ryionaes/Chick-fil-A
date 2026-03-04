@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chick-fil-A | Main Course</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <img src="images/Chick-fil-A-Logo.png" alt="Chick-fil-A Logo" class="nav-logo">
+            <nav>
+                <a href="maincourse.html">Main Course</a>
+                <a href="drinks.html">Drinks</a>
+                <a href="dessert.html">Dessert</a>
+            </nav>
+            <div class="nav-right">
+                <button class="order-now-btn" onclick="openCartModal()">Cart (0)</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero-container">
+            <img src="images/drinks-header.PNG" alt="Chick-fil-A Meal" class="hero-image">
+        </div>
+
+        <div class="order-card">
+    <h2>Main Course</h2>
+    
+    <div class="menu-grid-container">
+        <div class="menu-card">
+            <img src="images/Chicken-S.png" alt="CFA Chicken Sandwich" class="card-item-pic">
+            <h3 class="card-item-name">CFA Sandwich</h3>
+            <p class="card-item-price">$5.89</p>
+            <div class="quantity-control">
+                <input type="number" id="item1" value="0" min="0">
+                <button class="add-btn" onclick="addToCart('CFA Sandwich', 5.89, 'item1')">Add</button>
+            </div>
+        </div>
+
+        <div class="menu-card">
+            <img src="images/Chicken-N.PNG" alt="8pc Chicken Nuggets" class="card-item-pic">
+            <h3 class="card-item-name">8pc Nuggets</h3>
+            <p class="card-item-price">$5.95</p>
+            <div class="quantity-control">
+                <input type="number" id="item2" value="0" min="0">
+                <button class="add-btn" onclick="addToCart('8pc Nuggets', 5.95, 'item2')">Add</button>
+            </div>
+        </div>
+
+        <div class="menu-card">
+            <img src="images/grilledNuggets.png" alt="Spicy Sandwich" class="card-item-pic">
+            <h3 class="card-item-name">Spicy Sandwich</h3>
+            <p class="card-item-price">$6.29</p>
+            <div class="quantity-control">
+                <input type="number" id="item3" value="0" min="0">
+                <button class="add-btn" onclick="addToCart('Spicy Sandwich', 6.29, 'item3')">Add</button>
+            </div>
+        </div>
+
+        <div class="menu-card">
+            <img src="images/wrap.png" alt="Chick-fil-A Cool Wrap" class="card-item-pic">
+            <h3 class="card-item-name">Chick-fil-A Cool Wrap</h3>
+            <p class="card-item-price">$6.89</p>
+            <div class="quantity-control">
+                <input type="number" id="item4" value="0" min="0">
+                <button class="add-btn" onclick="addToCart('Chick-fil-A Cool Wrap', 6.89, 'item4')">Add</button>
+            </div>
+        </div>
+
+        <div class="menu-card">
+            <img src="images/chick-n-strips-plp-hero_e147b2.jpg" alt="Chicken Strips" class="card-item-pic">
+            <h3 class="card-item-name">Chicken Strips</h3>
+            <p class="card-item-price">$5.49</p>
+            <div class="quantity-control">
+                <input type="number" id="item5" value="0" min="0">
+                <button class="add-btn" onclick="addToCart('Chicken Strips', 5.49, 'item5')">Add</button>
+            </div>
+        </div>
+    </div> <div class="senior-section">
+        <label for="age">Enter Age:</label>
+        <input type="number" id="age" placeholder="60+ for discount">
+    </div>
+
+    <button class="place-order-btn" onclick="finishOrder()">Finish Order & Pay</button>
+    <button onclick="clearCart()" style="margin-top:10px; background:none; border:none; color:gray; cursor:pointer;">Clear All</button>
+
+    <div class="results">
+        <p>Original Total: $<span id="origTotal">0.00</span></p>
+        <p>Discount (12%): $<span id="discount">0.00</span></p>
+        <p class="final-payable">Final Payable: $<span id="finalTotal">0.00</span></p>
+    </div>
+</div> </main>
+
+    <script src="script.js"></script>
+
+    <div id="cartModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCartModal()">&times;</span>
+            <h2>Your Cart</h2>
+            
+            <div id="cartItemsList">
+                </div>
+            
+            <div class="modal-footer">
+                <button class="place-order-btn" style="margin-top: 15px;" onclick="closeCartModal()">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
