@@ -1,4 +1,6 @@
 /* General Layout */
+
+    
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modernized font */
@@ -19,8 +21,10 @@ body {
 .nav-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    max-width: 1100px;
+    /* Binago mula space-between para maging sentro */
+    justify-content: center; 
+    gap: 40px; /* Space sa pagitan ng logo at ng mga links */
+    max-width: 1000px; /* Pantay na sa main card mo */
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -367,6 +371,59 @@ main {
     bottom: 30px; /* Aangat pataas */
 }
 
+
+/* Siguraduhin na ang main container ay laging saktong gitna */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px; /* Pantay sa nav-container mo */
+    margin: 0 auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+/* Para pantay ang width ng hero image at ng white card */
+.hero-container, .order-card {
+    width: 100%;
+    max-width: 1000px; /* Ito ang limit ng lapad nila */
+    box-sizing: border-box;
+}
+
+/* Specific styling para sa text sa index page */
+.index-card h1 {
+    color: #dd0031;
+    font-size: clamp(2rem, 5vw, 2.8rem); /* Responsive font size */
+    margin-bottom: 10px;
+}
+
+.index-card h3 {
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.hero-text {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 40px;
+    line-height: 1.6;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-container {
+    display: flex;
+    justify-content: center;
+}
+
+.start-btn {
+    width: auto !important;
+    padding: 15px 50px !important;
+    font-size: 1.3rem !important;
+    border-radius: 50px !important;
+}
 
 
 /* Mga kulay depende sa aksyon */

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chick-fil-A | Home</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="images/Chick-fil-A-Logo.png">
 </head>
 <body>
 
@@ -14,36 +16,105 @@
                 <img src="images/Chick-fil-A-Logo.png" alt="Chick-fil-A Logo" class="nav-logo">
             </a>
             <nav>
+                <a href="index.html">Home</a>
                 <a href="Entrées.html">Entrées</a>
                 <a href="beverages.html">Beverages</a>
                 <a href="dessert.html">Dessert</a>
             </nav>
             <div class="nav-right">
-                <button class="order-now-btn" onclick="window.location.href='Entrées.html'">Start Ordering</button>
+                <button class="order-now-btn" onclick="openCartModal()">
+                    <i class="fas fa-shopping-cart"></i> (<span id="cartCountNav">0</span>)
+                </button>
             </div>
         </div>
     </header>
 
-    <main style="padding: 40px 20px;">
-        
-        <div class="hero-container" style="margin-bottom: 30px;">
-            <img src="images/drinks-header.PNG" alt="Welcome to Chick-fil-A" class="hero-image" style="border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+    <main>
+        <div class="hero-container">
+            <img src="images/drinks-header.PNG" alt="Welcome to Chick-fil-A" class="hero-image">
         </div>
 
-        <div class="order-card" style="max-width: 800px; padding: 50px; margin: 0 auto;">
-            <h1 style="color: #dd0031; font-size: 2.8em; margin-top: 0; margin-bottom: 10px;">Welcome to Chick-fil-A!</h1>
-            <h3 style="color: #333; margin-top: 0; margin-bottom: 30px;">It's our pleasure to serve you.</h3>
-            
-            <p style="font-size: 1.2em; color: #555; margin-bottom: 40px; line-height: 1.6;">
+        <div class="order-card index-card">
+            <h1>Welcome to Chick-fil-A!</h1>
+            <h3>It's our pleasure to serve you.</h3>
+            <p class="hero-text">
                 Craving something delicious? Explore our menu of classic chicken sandwiches, crispy nuggets, refreshing drinks, and sweet treats. Made fresh daily just for you.
             </p>
-            
-            <div style="display: flex; justify-content: center;">
-                <button class="place-order-btn" style="width: auto; padding: 15px 50px; font-size: 1.3em; border-radius: 50px;" onclick="window.location.href='Entrées.html'">View Menu & Order</button>
+            <div class="cta-container">
+                <button class="place-order-btn start-btn" onclick="window.location.href='Entrées.html'">View Menu & Order</button>
             </div>
         </div>
-
     </main>
 
+    <div id="cartModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCartModal()">&times;</span>
+            <h2>Your Cart & Checkout</h2>
+            <div id="cartItemsList"></div>
+            <hr style="border: 1px solid #eee; margin: 20px 0;">
+
+            <div class="checkout-options" style="text-align: left; margin: 15px 0;">
+                <label for="address" style="font-weight: bold; display: block; margin-bottom: 5px;">Delivery Address:</label>
+                <textarea id="address" placeholder="Enter full address..." rows="2" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 15px; font-family: inherit; resize: none; box-sizing: border-box;"></textarea>
+
+                <label for="paymentMethod" style="font-weight: bold; display: block; margin-bottom: 5px;">Payment Method:</label>
+                <select id="paymentMethod" onchange="togglePaymentDetails()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 15px;">
+                    <option value="Cash">Cash on Delivery</option>
+                    <option value="Card">Credit/Debit Card</option>
+                    <option value="GCash/PayMaya">E-Wallet (GCash/PayMaya)</option>
+                </select>
+
+                <div id="paymentDetails" style="display: none; margin-bottom: 15px;">
+                    <label id="paymentLabel" for="paymentNumber" style="font-weight: bold; display: block; margin-bottom: 5px;">Account Number:</label>
+                    <input type="text" id="paymentNumber" placeholder="Enter number..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+
+                <label for="specialNotes" style="font-weight: bold; display: block; margin-bottom: 5px;">Special Instructions:</label>
+                <textarea id="specialNotes" placeholder="e.g., Extra ketchup..." rows="2" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-family: inherit; resize: none; box-sizing: border-box;"></textarea>
+            </div>
+
+            <div class="senior-section">
+                <label for="age">Enter Age (for 12% Senior Discount):</label>
+                <input type="number" id="age" placeholder="Age" oninput="finishOrder()" style="width: 80px;">
+            </div>
+
+            <div class="results">
+                <p>Original Total: $<span id="origTotal">0.00</span></p>
+                <p>Discount: $<span id="discount">0.00</span></p>
+                <p class="final-payable">Final Payable: $<span id="finalTotal">0.00</span></p>
+            </div>
+
+            <div class="modal-footer" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
+                <button id="finishOrderBtn" class="place-order-btn" style="flex: 1;" onclick="payNow()">Finish Order</button>
+                <button class="order-now-btn" style="flex: 1; background-color: #eee; color: #333;" onclick="closeCartModal()">Continue Shopping</button>
+                <button id="clearCartBtn" class="order-now-btn" style="width: 100%; background-color: #fff5f6; color: #dd0031; border: 1px solid #ffcccc;" onclick="clearCart()">Clear Cart Items</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 350px; text-align: center;">
+            <h3 style="color: #dd0031;">Confirm Order</h3>
+            <p id="confirmMessage" style="margin: 20px 0;">Are you sure?</p>
+            <div style="display: flex; justify-content: center; gap: 15px;">
+                <button class="order-now-btn" onclick="confirmAction()">Yes</button>
+                <button class="place-order-btn" style="background-color: #ccc; color: #333; width: auto; padding: 10px 25px;" onclick="closeConfirmModal()">No</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="receiptModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 380px; text-align: left; font-family: 'Courier New', Courier, monospace;">
+            <h2 style="text-align: center; color: #333;">Chick-fil-A</h2>
+            <p style="text-align: center; border-bottom: 1px dashed #ccc; padding-bottom: 15px; font-weight: bold;">OFFICIAL RECEIPT</p>
+            <div id="receiptContent" style="font-size: 0.95rem; line-height: 1.5;"></div>
+            <div style="text-align: center; margin-top: 25px; border-top: 1px dashed #ccc; padding-top: 15px;">
+                <h3 style="color: #28a745;">Payment Successful!</h3>
+                <button class="place-order-btn" onclick="closeReceiptModal()">Close Receipt</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

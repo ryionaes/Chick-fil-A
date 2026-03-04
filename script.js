@@ -12,13 +12,13 @@ function updateCartCount() {
     const ageInput = document.getElementById("age"); 
     
     if (cart.length === 0) {
-        if(finishBtn) finishBtn.disabled = true;
-        if(clearBtn) clearBtn.disabled = true;
         if(ageInput) ageInput.disabled = true;
+        // Itatago ang button kapag walang laman ang cart
+        if(clearBtn) clearBtn.style.display = 'none'; 
     } else {
-        if(finishBtn) finishBtn.disabled = false;
-        if(clearBtn) clearBtn.disabled = false;
         if(ageInput) ageInput.disabled = false;
+        // Ipapalabas ulit ang button kapag may laman na ang cart
+        if(clearBtn) clearBtn.style.display = 'block'; 
     }
 }
 
